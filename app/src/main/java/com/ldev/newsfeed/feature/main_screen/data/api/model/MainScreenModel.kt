@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MainScreenModel(
     @SerializedName("articles")
-    val articles: ArrayList<MainScreenArticleModel>
+    val articles: List<MainScreenArticleModel>
 ) {
 }
 /*
