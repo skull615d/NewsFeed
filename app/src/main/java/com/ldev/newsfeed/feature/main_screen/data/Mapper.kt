@@ -9,17 +9,15 @@ fun MainScreenSourceModel.toDomain() = MainScreenSourceDomainModel(name = name)
 
 fun MainScreenArticleModel.toDomain() = MainScreenDomainModel(
     source = source.toDomain(),
-    author,
+    author ?: "",
     title,
     description,
     url,
     urlToImage,
     publishedAt,
-    content
+    content ?: ""
 
 )
-
-
 
 
 /*fun MainScreenArticleModel.toDomain(): List<MainScreenDomainModel>{
