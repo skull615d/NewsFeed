@@ -20,10 +20,6 @@ val mainScreenModule = module {
         get<Retrofit>().create(MainScreenApi::class.java)
     }
 
-    viewModel {
-        MainScreenViewModel()
-    }
-
     single<MainScreenRemoteSource> {
         MainScreenRemoteSource(get<MainScreenApi>())
     }
@@ -31,8 +27,12 @@ val mainScreenModule = module {
     single<MainScreenRepo>{
         MainScreenRepoImpl(get<MainScreenRemoteSource>())
     }
-    
+
     single<NewsInteractor>{
         NewsInteractor(get<MainScreenRepo>())
+    }
+
+    viewModel() {
+        MainScreenViewModel(get<NewsInteractor>())
     }
 }

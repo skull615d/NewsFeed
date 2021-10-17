@@ -1,9 +1,7 @@
 package com.ldev.newsfeed.feature.main_screen.data
 
 import com.ldev.newsfeed.feature.main_screen.data.api.model.MainScreenArticleModel
-import com.ldev.newsfeed.feature.main_screen.data.api.model.MainScreenModel
 import com.ldev.newsfeed.feature.main_screen.data.api.model.MainScreenSourceModel
-import com.ldev.newsfeed.feature.main_screen.domain.model.MainScreenArticleDomainModel
 import com.ldev.newsfeed.feature.main_screen.domain.model.MainScreenDomainModel
 import com.ldev.newsfeed.feature.main_screen.domain.model.MainScreenSourceDomainModel
 
