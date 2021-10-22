@@ -7,7 +7,9 @@ data class ViewState(
     val articles: List<ArticleDomainModel>,
     val errorMessage: String?,
     val isLoading: Boolean,
-)
+) {
+    val isInErrorState: Boolean = errorMessage != null
+}
 
 sealed class UiEvent : Event {
     object GetCurrentNews : UiEvent()

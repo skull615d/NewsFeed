@@ -42,7 +42,10 @@ class MainScreenViewModel(private val interactor: NewsInteractor) : BaseViewMode
                 )
             }
             is DataEvent.ErrorNewsRequest -> {
-
+                return previousState.copy(
+                    isLoading = false,
+                    errorMessage = event.errorMessage
+                )
             }
         }
         return null
