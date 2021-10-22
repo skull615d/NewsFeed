@@ -2,25 +2,24 @@ package com.ldev.newsfeed.feature.main_screen.data.api.model
 
 import com.google.gson.annotations.SerializedName
 
-data class MainScreenArticleModel(
+data class ArticleModel(
     @SerializedName("source")
-    val source: MainScreenSourceModel,
+    val source: ArticleSourceModel,
     @SerializedName("author")
     val author: String?,
     @SerializedName("title")
     val title: String,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String,
+    val urlToImage: String?,
     @SerializedName("publishedAt")
     val publishedAt: String,
     @SerializedName("content")
     val content: String?,
-) {
-}
+)
 /*
     -"articles": [
     -{

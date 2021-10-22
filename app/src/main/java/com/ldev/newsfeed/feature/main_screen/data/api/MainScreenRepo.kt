@@ -1,7 +1,7 @@
 package com.ldev.newsfeed.feature.main_screen.data.api
 
-import com.ldev.newsfeed.feature.main_screen.domain.model.MainScreenDomainModel
+import com.ldev.newsfeed.feature.main_screen.domain.model.ArticleDomainModel
 
 interface MainScreenRepo {
-    suspend fun getNews(): List<MainScreenDomainModel>
+    suspend fun getNews(): List<ArticleDomainModel>
 }

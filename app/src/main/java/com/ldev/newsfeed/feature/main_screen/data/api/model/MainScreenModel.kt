@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class MainScreenModel(
     @SerializedName("articles")
-    val articles: List<MainScreenArticleModel>
-) {
-}
+    val articles: List<ArticleModel>
+)
 /*
 {
     "status": "ok",
