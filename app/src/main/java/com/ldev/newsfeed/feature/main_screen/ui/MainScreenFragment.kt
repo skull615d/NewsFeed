@@ -1,26 +1,22 @@
 package com.ldev.newsfeed.feature.main_screen.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.R
+import com.ldev.newsfeed.databinding.FragmentMainscreenBinding
 import com.ldev.newsfeed.feature.main_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainScreenFragment : Fragment() {
+class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
 
     private val viewModel by viewModel<MainScreenViewModel>()
-    lateinit var progressBarArticles: ProgressBar
-    lateinit var textViewError: TextView
+    private val binding: FragmentMainscreenBinding by viewBinding(FragmentMainscreenBinding::bind)
 
-    private val adapter: ArticlesAdapter by lazy {
+    private val adapterArticles: ArticlesAdapter by lazy {
         ArticlesAdapter(
             articles = listOf(),
             onBookmarkClick = { viewModel.processUiEvent(UiEvent.OnBookmarkClick(it)) },
@@ -28,21 +24,12 @@ class MainScreenFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment_mainscreen, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val recyclerViewArticles: RecyclerView = view.findViewById(R.id.rvArticles)
-        progressBarArticles = view.findViewById(R.id.pbArticles)
-        textViewError = view.findViewById(R.id.tvError)
-        recyclerViewArticles.adapter = adapter
-        recyclerViewArticles.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvArticles.apply {
+            adapter = adapterArticles
+            layoutManager = LinearLayoutManager(requireContext())
+        }
 
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
 
@@ -55,15 +42,17 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun updateErrorText(viewState: ViewState) {
-        textViewError.text = viewState.errorMessage
-        textViewError.isVisible = viewState.isInErrorState
+        binding.tvError.apply {
+            text = viewState.errorMessage
+            isVisible = viewState.isInErrorState
+        }
     }
 
     private fun updateProgressBar(viewState: ViewState) {
-        progressBarArticles.isVisible = viewState.isLoading
+        binding.pbArticles.isVisible = viewState.isLoading
     }
 
     private fun updateList(viewState: ViewState) {
-        adapter.updateArticles(viewState.articles)
+        adapterArticles.updateArticles(viewState.articles)
     }
 }

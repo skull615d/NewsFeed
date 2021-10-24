@@ -1,19 +1,19 @@
 package com.ldev.newsfeed.feature.bookmarks_screen.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.R
+import com.ldev.newsfeed.databinding.FragmentBookmarksBinding
 import com.ldev.newsfeed.feature.main_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookmarksScreenFragment : Fragment() {
+class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks) {
 
     private val viewModel by viewModel<BookmarksViewModel>()
+    private val binding: FragmentBookmarksBinding by viewBinding(FragmentBookmarksBinding::bind)
     private val articlesAdapter: ArticlesAdapter by lazy {
         ArticlesAdapter(
             articles = emptyList(),
@@ -26,25 +26,16 @@ class BookmarksScreenFragment : Fragment() {
         fun newInstance(): BookmarksScreenFragment = BookmarksScreenFragment()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_bookmarks, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvBookmarks)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = articlesAdapter
-
+        binding.rvBookmarks.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = articlesAdapter
+        }
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
     }
 
     private fun render(viewState: ViewState) {
-        val articles = viewState.articles
-        articlesAdapter.updateArticles(articles)
+        articlesAdapter.updateArticles(viewState.articles)
     }
 }

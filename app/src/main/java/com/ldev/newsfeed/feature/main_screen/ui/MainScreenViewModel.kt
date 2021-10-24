@@ -9,7 +9,6 @@ import com.ldev.newsfeed.feature.bookmarks_screen.domain.BookmarksInteractor
 import com.ldev.newsfeed.feature.main_screen.domain.NewsInteractor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.*
 
 class MainScreenViewModel(
     private val interactorNews: NewsInteractor,
@@ -81,7 +80,7 @@ class MainScreenViewModel(
                 interactorBookmarks.create(
                     event.article.copy(
                         isBookmarked = true,
-                        addBookmarkDateTime = Calendar.getInstance().timeInMillis
+                        addBookmarkDateTime = System.currentTimeMillis()
                     )
                 )
             }
