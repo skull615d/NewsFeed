@@ -23,4 +23,6 @@ sealed class DataEvent : Event {
         DataEvent()
 
     data class ErrorNewsRequest(val errorMessage: String) : DataEvent()
+    data class AddBookmark(val article: ArticleDomainModel) : DataEvent()
+    data class RemoveBookmark(val article: ArticleDomainModel) : DataEvent()
 }

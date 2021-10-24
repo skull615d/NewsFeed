@@ -41,21 +41,20 @@ class MainScreenViewModel(
                     }
                 )
             }
+
             is UiEvent.OnArticleClick -> {
                 event.article
             }
+
             is UiEvent.OnBookmarkClick -> {
                 if (event.article.isBookmarked) {
-                    interactorBookmarks.delete(event.article)
+                    processDataEvent(DataEvent.RemoveBookmark(event.article))
                 } else {
-                    interactorBookmarks.create(
-                        event.article.copy(
-                            isBookmarked = true,
-                            addBookmarkDateTime = Calendar.getInstance().timeInMillis
-                        )
-                    )
+                    processDataEvent(DataEvent.AddBookmark(event.article))
                 }
+
             }
+
             is UiEvent.OnBookmarksFetched -> {
                 val oldArticles = previousState.articles
                 val newArticles = event.articles
@@ -63,17 +62,32 @@ class MainScreenViewModel(
                 val articles = mapToList(oldList = oldArticles, newList = newArticles)
                 return previousState.copy(articles = articles)
             }
+
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
                     articles = event.articleDomainModelList,
                     isLoading = false
                 )
             }
+
             is DataEvent.ErrorNewsRequest -> {
                 return previousState.copy(
                     isLoading = false,
                     errorMessage = event.errorMessage
                 )
+            }
+
+            is DataEvent.AddBookmark -> {
+                interactorBookmarks.create(
+                    event.article.copy(
+                        isBookmarked = true,
+                        addBookmarkDateTime = Calendar.getInstance().timeInMillis
+                    )
+                )
+            }
+
+            is DataEvent.RemoveBookmark -> {
+                interactorBookmarks.delete(event.article)
             }
         }
         return null
