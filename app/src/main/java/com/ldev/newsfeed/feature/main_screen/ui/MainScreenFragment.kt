@@ -8,7 +8,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ldev.newsfeed.R
@@ -21,11 +20,12 @@ class MainScreenFragment : Fragment() {
     lateinit var progressBarArticles: ProgressBar
     lateinit var textViewError: TextView
 
-    private val adapter by lazy {
-        ArticlesAdapter(listOf())
-        { article ->
-            viewModel.processUiEvent(UiEvent.OnArticleClick(article))
-        }
+    private val adapter: ArticlesAdapter by lazy {
+        ArticlesAdapter(
+            articles = listOf(),
+            onBookmarkClick = { viewModel.processUiEvent(UiEvent.OnBookmarkClick(it)) },
+            onArticleClick = { viewModel.processUiEvent(UiEvent.OnArticleClick(it)) }
+        )
     }
 
     override fun onCreateView(
@@ -37,13 +37,14 @@ class MainScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val recyclerViewArticles: RecyclerView = view.findViewById(R.id.rvArticles)
         progressBarArticles = view.findViewById(R.id.pbArticles)
         textViewError = view.findViewById(R.id.tvError)
         recyclerViewArticles.adapter = adapter
         recyclerViewArticles.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.viewState.observe(viewLifecycleOwner, Observer(::render))
+        viewModel.viewState.observe(viewLifecycleOwner, ::render)
 
     }
 

@@ -12,13 +12,13 @@ data class ViewState(
 }
 
 sealed class UiEvent : Event {
-    object GetCurrentNews : UiEvent()
+    object GetNews : UiEvent()
+    data class OnBookmarksFetched(val articles: List<ArticleDomainModel>) : UiEvent()
     data class OnArticleClick(val article: ArticleDomainModel) : UiEvent()
     data class OnBookmarkClick(val article: ArticleDomainModel) : UiEvent()
 }
 
 sealed class DataEvent : Event {
-    object OnLoadData : DataEvent()
     data class SuccessNewsRequest(val articleDomainModelList: List<ArticleDomainModel>) :
         DataEvent()
 

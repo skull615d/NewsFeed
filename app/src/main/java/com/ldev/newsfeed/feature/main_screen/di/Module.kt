@@ -1,5 +1,7 @@
 package com.ldev.newsfeed.feature.main_screen.di
 
+import com.ldev.newsfeed.feature.bookmarks_screen.data.BookmarksRepo
+import com.ldev.newsfeed.feature.bookmarks_screen.domain.BookmarksInteractor
 import com.ldev.newsfeed.feature.main_screen.data.api.MainScreenApi
 import com.ldev.newsfeed.feature.main_screen.data.api.MainScreenRemoteSource
 import com.ldev.newsfeed.feature.main_screen.data.api.MainScreenRepo
@@ -26,10 +28,10 @@ val mainScreenModule = module {
     }
 
     single<NewsInteractor>{
-        NewsInteractor(get<MainScreenRepo>())
+        NewsInteractor(get<MainScreenRepo>(), get<BookmarksRepo>())
     }
 
     viewModel {
-        MainScreenViewModel(get<NewsInteractor>())
+        MainScreenViewModel(get<NewsInteractor>(), get<BookmarksInteractor>())
     }
 }
