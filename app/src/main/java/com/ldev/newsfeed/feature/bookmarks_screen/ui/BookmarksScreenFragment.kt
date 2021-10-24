@@ -17,9 +17,8 @@ class BookmarksScreenFragment : Fragment() {
     private val articlesAdapter: ArticlesAdapter by lazy {
         ArticlesAdapter(
             articles = emptyList(),
-            onBookmarkClick = {
-                viewModel.processUiEvent(UiEvent.OnBookmarkClick(it))
-            }
+            onBookmarkClick = { viewModel.processUiEvent(UiEvent.OnBookmarkClick(it)) },
+            onArticleClick = { viewModel.processUiEvent(UiEvent.OnArticleClick(it)) }
         )
     }
 

@@ -11,6 +11,7 @@ data class ViewState(
 sealed class UiEvent : Event {
     data class OnBookmarkClick(val articleDomainModel: ArticleDomainModel) : UiEvent()
     data class OnBookmarksFetched(val articles: List<ArticleDomainModel>) : UiEvent()
+    data class OnArticleClick(val article: ArticleDomainModel) : UiEvent()
 }
 
 sealed class DataEvent : Event {
