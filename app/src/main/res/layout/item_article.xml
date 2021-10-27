@@ -16,7 +16,7 @@
             android:id="@+id/ibBookmark"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@color/parent"
+            android:background="@color/transparent"
             android:src="@drawable/ic_bookmark"
             app:layout_constraintEnd_toEndOf="@id/tvDescription"
             app:layout_constraintTop_toTopOf="@+id/tvTitle" />

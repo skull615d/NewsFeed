@@ -4,9 +4,9 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.ldev.newsfeed.base.BaseViewModel
 import com.ldev.newsfeed.base.Event
-import com.ldev.newsfeed.base.mapToList
 import com.ldev.newsfeed.feature.bookmarks_screen.domain.BookmarksInteractor
 import com.ldev.newsfeed.feature.main_screen.domain.NewsInteractor
+import com.ldev.newsfeed.utils.mapToList
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -58,7 +58,7 @@ class MainScreenViewModel(
                 val oldArticles = previousState.articles
                 val newArticles = event.articles
 
-                val articles = mapToList(oldList = oldArticles, newList = newArticles)
+                val articles = oldArticles.mapToList(newArticles)
                 return previousState.copy(articles = articles)
             }
 

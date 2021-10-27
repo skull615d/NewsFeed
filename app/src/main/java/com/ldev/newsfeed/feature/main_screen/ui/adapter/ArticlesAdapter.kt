@@ -3,10 +3,10 @@ package com.ldev.newsfeed.feature.main_screen.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ldev.newsfeed.R
 import com.ldev.newsfeed.databinding.ItemArticleBinding
 import com.ldev.newsfeed.feature.main_screen.domain.model.ArticleDomainModel
+import com.ldev.newsfeed.utils.loadImage
 import com.ldev.newsfeed.utils.toStringFormat
 
 class ArticlesAdapter(
@@ -20,7 +20,6 @@ class ArticlesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemArticleBinding =
             ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_article, parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,14 +44,7 @@ class ArticlesAdapter(
                 } else {
                     ibBookmark.setImageResource(R.drawable.ic_bookmark)
                 }
-
-                Glide.with(binding.root)
-                    .load(item.urlToImage)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_non_existing_url)
-                    .fallback(R.drawable.ic_placeholder)
-                    .into(ivArticleImage)
+                ivArticleImage.loadImage(item.urlToImage)
 
                 ibBookmark.setOnClickListener {
                     onBookmarkClick(item)
