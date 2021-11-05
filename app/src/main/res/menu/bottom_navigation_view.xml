@@ -8,8 +8,4 @@
         android:id="@+id/bookmarksTab"
         android:icon="@drawable/ic_collections_bookmark"
         android:title="@string/bookmarks" />
-    <item
-        android:id="@+id/searchTab"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search" />
 </menu>

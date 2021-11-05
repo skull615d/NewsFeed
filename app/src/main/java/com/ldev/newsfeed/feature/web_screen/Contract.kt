@@ -6,8 +6,6 @@ data class ViewState(
     val progressLoading: Int
 )
 
-sealed class UiEvent : Event
-
-sealed class DataEvent : Event {
-    data class SetProgress(val progressLoading: Int) : DataEvent()
+sealed class UiEvent : Event {
+    data class SetProgress(val progressLoading: Int) : UiEvent()
 }

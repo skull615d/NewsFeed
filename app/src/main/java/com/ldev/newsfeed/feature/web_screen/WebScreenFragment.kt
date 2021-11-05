@@ -5,6 +5,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.R
@@ -28,18 +29,20 @@ class WebScreenFragment : Fragment(R.layout.fragment_web) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.viewState.observe(viewLifecycleOwner, ::render)
 
         val web = view.findViewById<WebView>(R.id.webView)
-        //web.settings.javaScriptEnabled = true
         web.webViewClient = WebViewClient()
-        web.webChromeClient = ChromeClient()
+        web.webChromeClient = ChromeClient {
+            viewModel.processUiEvent(UiEvent.SetProgress(it))
+        }
         web.loadUrl(url)
+        viewModel.viewState.observe(viewLifecycleOwner, ::render)
     }
 
-    fun render(viewState: ViewState) {
+    private fun render(viewState: ViewState) {
         binding.apply {
             progressBar.progress = viewState.progressLoading
+            progressBar.isGone = viewState.progressLoading == 100
         }
     }
 }

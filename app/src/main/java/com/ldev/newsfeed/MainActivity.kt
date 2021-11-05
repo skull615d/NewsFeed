@@ -7,7 +7,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.databinding.ActivityMainBinding
 import com.ldev.newsfeed.feature.bookmarks_screen.ui.BookmarksScreenFragment
 import com.ldev.newsfeed.feature.main_screen.ui.MainScreenFragment
-import com.ldev.newsfeed.feature.search_screen.ui.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +23,6 @@ class MainActivity : AppCompatActivity() {
                     R.id.mainTab -> setFragment(MainScreenFragment())
 
                     R.id.bookmarksTab -> setFragment(BookmarksScreenFragment.newInstance())
-
-                    R.id.searchTab -> setFragment(SearchFragment.newInstance())
 
                 }
                 true

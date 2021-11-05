@@ -8,14 +8,10 @@ class WebScreenViewModel : BaseViewModel<ViewState>() {
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
-            is DataEvent.SetProgress -> {
-                previousState.copy(progressLoading = event.progressLoading)
+            is UiEvent.SetProgress -> {
+                return previousState.copy(progressLoading = event.progressLoading)
             }
         }
         return null
-    }
-
-    fun setProgress(progress: Int) {
-        processDataEvent(DataEvent.SetProgress(progress))
     }
 }
