@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.R
 import com.ldev.newsfeed.databinding.FragmentMainscreenBinding
 import com.ldev.newsfeed.feature.main_screen.ui.adapter.ArticlesAdapter
+import com.ldev.newsfeed.feature.web_screen.WebScreenFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
@@ -20,9 +21,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
         ArticlesAdapter(
             articles = listOf(),
             onBookmarkClick = { viewModel.processUiEvent(UiEvent.OnBookmarkClick(it)) },
-            onArticleClick = { viewModel.processUiEvent(UiEvent.OnArticleClick(it)) }
+            onArticleClick = {
+                setFragment(WebScreenFragment.newInstance(it.url))
+            }
         )
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -32,7 +36,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
         }
 
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
-
     }
 
     private fun render(viewState: ViewState) {
@@ -54,5 +57,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
 
     private fun updateList(viewState: ViewState) {
         adapterArticles.updateArticles(viewState.articles)
+    }
+
+    private fun setFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .add(android.R.id.content, fragment)
+            .addToBackStack("news")
+            .commit()
     }
 }
