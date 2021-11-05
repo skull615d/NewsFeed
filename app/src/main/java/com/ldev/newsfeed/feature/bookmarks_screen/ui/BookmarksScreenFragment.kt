@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.ldev.newsfeed.R
 import com.ldev.newsfeed.databinding.FragmentBookmarksBinding
 import com.ldev.newsfeed.feature.main_screen.ui.adapter.ArticlesAdapter
+import com.ldev.newsfeed.feature.web_screen.WebScreenFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks) {
@@ -18,7 +19,7 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks) {
         ArticlesAdapter(
             articles = emptyList(),
             onBookmarkClick = { viewModel.processUiEvent(UiEvent.OnBookmarkClick(it)) },
-            onArticleClick = { viewModel.processUiEvent(UiEvent.OnArticleClick(it)) }
+            onArticleClick = { setFragment(WebScreenFragment.newInstance(it.url)) }
         )
     }
 
@@ -37,5 +38,12 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks) {
 
     private fun render(viewState: ViewState) {
         articlesAdapter.updateArticles(viewState.articles)
+    }
+
+    private fun setFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .add(android.R.id.content, fragment)
+            .addToBackStack("bookmarks")
+            .commit()
     }
 }

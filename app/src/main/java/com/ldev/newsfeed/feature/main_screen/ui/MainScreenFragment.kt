@@ -39,9 +39,9 @@ class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
     }
 
     private fun render(viewState: ViewState) {
-        updateProgressBar(viewState)
         updateErrorText(viewState)
-        updateList(viewState)
+        adapterArticles.updateArticles(viewState.articles)
+        binding.pbArticles.isVisible = viewState.isLoading
     }
 
     private fun updateErrorText(viewState: ViewState) {
@@ -49,14 +49,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_mainscreen) {
             text = viewState.errorMessage
             isVisible = viewState.isInErrorState
         }
-    }
-
-    private fun updateProgressBar(viewState: ViewState) {
-        binding.pbArticles.isVisible = viewState.isLoading
-    }
-
-    private fun updateList(viewState: ViewState) {
-        adapterArticles.updateArticles(viewState.articles)
     }
 
     private fun setFragment(fragment: Fragment) {
