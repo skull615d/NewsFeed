@@ -1,0 +1,1 @@
+### Application for viewing current news per day.
