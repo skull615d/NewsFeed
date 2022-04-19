@@ -3,6 +3,7 @@ package com.ldev.newsfeed.utils
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.ldev.newsfeed.R
@@ -33,6 +34,11 @@ fun List<ArticleDomainModel>.lastTime(hour: Int = 1): List<ArticleDomainModel> {
     return this
 }
 
+fun Fragment.setGoneBottomNavBar(isGone: Boolean) {
+    val actions by lazy { requireActivity() as MainActivityActions }
+    actions.setGoneBottomNavBar(isGone)
+}
+
 fun ImageView.loadImage(
     src: String?,
     @DrawableRes errorRes: Int = R.drawable.ic_placeholder,
@@ -48,10 +54,3 @@ fun ImageView.loadImage(
         .into(this)
 }
 
-fun List<ArticleDomainModel>.mapToList(
-    newList: List<ArticleDomainModel>
-): List<ArticleDomainModel> {
-    return this.map { article ->
-        article.copy(isBookmarked = newList.map { it.url }.contains(article.url))
-    }
-}

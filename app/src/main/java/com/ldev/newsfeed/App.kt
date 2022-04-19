@@ -7,7 +7,6 @@ import com.ldev.newsfeed.feature.bookmarks_screen.di.bookmarksScreenModule
 import com.ldev.newsfeed.feature.main_screen.di.mainScreenModule
 import com.ldev.newsfeed.feature.web_screen.di.webScreenModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
@@ -17,7 +16,7 @@ class App : Application() {
         super.onCreate()
         // Start Koin
         startKoin {
-            androidLogger()
+            //androidLogger()
             androidContext(this@App)
             modules(
                 appModule,

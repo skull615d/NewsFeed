@@ -2,38 +2,27 @@ package com.ldev.newsfeed
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.core.view.isGone
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ldev.newsfeed.databinding.ActivityMainBinding
-import com.ldev.newsfeed.feature.bookmarks_screen.ui.BookmarksScreenFragment
-import com.ldev.newsfeed.feature.main_screen.ui.MainScreenFragment
+import com.ldev.newsfeed.utils.MainActivityActions
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainActivityActions {
 
-    val binding: ActivityMainBinding by viewBinding(ActivityMainBinding::bind)
+    private val binding by viewBinding(ActivityMainBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        binding.apply {
-            bottomNavigationView.setOnItemSelectedListener {
-                when (it.itemId) {
-
-                    R.id.mainTab -> setFragment(MainScreenFragment())
-
-                    R.id.bookmarksTab -> setFragment(BookmarksScreenFragment.newInstance())
-
-                }
-                true
-            }
-            bottomNavigationView.selectedItemId = R.id.mainTab
-        }
+        val navController = findNavController(R.id.fragment_container)
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
     }
 
-    private fun setFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .commit()
+    override fun setGoneBottomNavBar(isGone: Boolean) {
+        val bNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bNav?.let { it.isGone = isGone }
     }
 }

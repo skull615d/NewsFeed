@@ -6,7 +6,7 @@ import com.ldev.newsfeed.base.BaseViewModel
 import com.ldev.newsfeed.base.Event
 import com.ldev.newsfeed.feature.bookmarks_screen.domain.BookmarksInteractor
 import com.ldev.newsfeed.feature.main_screen.domain.NewsInteractor
-import com.ldev.newsfeed.utils.mapToList
+import com.ldev.newsfeed.feature.main_screen.domain.model.ArticleDomainModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -31,6 +31,7 @@ class MainScreenViewModel(
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UiEvent.GetNews -> {
+                processDataEvent(DataEvent.IsLoading(true))
                 interactorNews.getNews().fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
@@ -55,18 +56,20 @@ class MainScreenViewModel(
             }
 
             is UiEvent.OnBookmarksFetched -> {
-                val oldArticles = previousState.articles
-                val newArticles = event.articles
-
-                val articles = oldArticles.mapToList(newArticles)
-                return previousState.copy(articles = articles)
+                return previousState.copy(
+                    articles = previousState.articles.setupBookmarks(event.articles)
+                )
             }
 
             is DataEvent.SuccessNewsRequest -> {
+                val bookmarksArticles = interactorBookmarks.read()
                 return previousState.copy(
-                    articles = event.articleDomainModelList,
+                    articles = event.articleDomainModelList.setupBookmarks(bookmarksArticles),
                     isLoading = false
                 )
+            }
+            is DataEvent.IsLoading -> {
+                return previousState.copy(isLoading = event.isLoading)
             }
 
             is DataEvent.ErrorNewsRequest -> {
@@ -90,5 +93,13 @@ class MainScreenViewModel(
             }
         }
         return null
+    }
+
+    private fun List<ArticleDomainModel>.setupBookmarks(
+        newList: List<ArticleDomainModel>
+    ): List<ArticleDomainModel> {
+        return this.map { article ->
+            article.copy(isBookmarked = newList.map { it.url }.contains(article.url))
+        }
     }
 }
